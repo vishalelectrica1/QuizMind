@@ -1,24 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { History as HistoryIcon, Trash2, Calendar, Award, Play } from "lucide-react";
+import { History as HistoryIcon, Trash2, Calendar, Play } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 
 export default function History({ onStartNewQuiz }) {
   const [historyList, setHistoryList] = useState([]);
+  const { token } = useAuth();
 
   useEffect(() => {
-    const savedHistory = localStorage.getItem("quiz_history");
-    if (savedHistory) {
-      try {
-        setHistoryList(JSON.parse(savedHistory));
-      } catch (e) {
-        console.error("Error parsing quiz history:", e);
-      }
-    }
-  }, []);
+    fetch("http://localhost:5000/api/history", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(res => res.json())
+      .then(data => setHistoryList(Array.isArray(data) ? data : []))
+      .catch(e => console.error("Error fetching quiz history:", e));
+  }, [token]);
 
   const clearHistory = () => {
     if (window.confirm("Are you sure you want to clear all quiz history?")) {
-      localStorage.removeItem("quiz_history");
-      setHistoryList([]);
+      fetch("http://localhost:5000/api/history", {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then(() => setHistoryList([]))
+        .catch(e => console.error("Error clearing history:", e));
     }
   };
 

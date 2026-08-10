@@ -7,7 +7,8 @@ const SUGGESTIONS = [
   "Solar System Planets",
   "Basic Math",
   "World Flags",
-  "Fruits & Vegetables"
+  "Fruits & Vegetables",
+  "Cricket"
 ];
 
 export default function QuizCustomizer({ onGenerate, isLoading, error }) {
