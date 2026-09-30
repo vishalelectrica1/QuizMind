@@ -17,7 +17,7 @@ export default function History({ onStartNewQuiz }) {
 
   const clearHistory = () => {
     if (window.confirm("Are you sure you want to clear all quiz history?")) {
-      fetch("http://localhost:5000/api/history", {
+      fetch(`${import.meta.env.VITE_API_URL}/api/history`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       })
