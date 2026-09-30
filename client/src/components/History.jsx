@@ -7,7 +7,7 @@ export default function History({ onStartNewQuiz }) {
   const { token } = useAuth();
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/history", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/history`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())
