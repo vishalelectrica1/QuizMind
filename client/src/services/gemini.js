@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 /**
  * Generates a quiz via the Express backend (which calls Gemini AI).
@@ -8,7 +8,7 @@ export async function generateQuiz(topic, difficulty, count = 5) {
   const token = localStorage.getItem("quizmind_token");
 
   try {
-    const response = await fetch(`${API_URL}/generate-quiz`, {
+    const response = await fetch(`${API_URL}/api/generate-quiz`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

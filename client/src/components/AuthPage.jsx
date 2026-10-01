@@ -34,7 +34,7 @@ export default function AuthPage() {
     setError("");
     setIsLoading(true);
 
-    const endpoint = activeTab === "login" ? "/login" : "/register";
+    const endpoint = activeTab === "login" ? "/api/auth/login" : "/api/auth/register";
     const body = activeTab === "login" ? { email, password } : { name, email, password };
 
     try {
