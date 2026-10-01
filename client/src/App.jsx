@@ -7,7 +7,7 @@ import History from "./components/History";
 import AuthPage from "./components/AuthPage";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { generateQuiz } from "./services/gemini";
-
+const API_URL = import.meta.env.VITE_API_URL;
 // Inner app that uses auth context
 function QuizApp() {
   const { user, logout, isAuthenticated, isLoading } = useAuth();
@@ -68,7 +68,7 @@ function QuizApp() {
     const correctCount = quizAnswers.filter((r) => r.isCorrect).length;
     const token = localStorage.getItem("quizmind_token");
 
-    fetch("http://localhost:5000/api/history", {
+    fetch(`${API_URL}/api/history`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
