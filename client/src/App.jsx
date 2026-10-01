@@ -61,31 +61,40 @@ function QuizApp() {
     }
   };
 
-  const handleQuizComplete = (quizAnswers) => {
-    setResults(quizAnswers);
-    setQuizState("results");
+  const handleQuizComplete = async (quizAnswers) => {
+  setResults(quizAnswers);
+  setQuizState("results");
 
-    const correctCount = quizAnswers.filter((r) => r.isCorrect).length;
-    const token = localStorage.getItem("quizmind_token");
+  const correctCount = quizAnswers.filter((r) => r.isCorrect).length;
+  const token = localStorage.getItem("quizmind_token");
 
-    fetch(`${API_URL}/api/history`, {
+  try {
+    const response = await fetch(`${API_URL}/api/history`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ topic, difficulty, correct: correctCount, total: quizAnswers.length }),
-    }).catch((err) => console.error("Failed to save history", err));
-  };
+      body: JSON.stringify({
+        topic,
+        difficulty,
+        correct: correctCount,
+        total: quizAnswers.length,
+      }),
+    });
 
-  const handleRetry = () => setQuizState("playing");
+    const data = await response.json();
 
-  const handleNewQuiz = () => {
-    setQuizState("setup");
-    setQuizData(null);
-    setResults([]);
-    setActiveTab("quiz");
-  };
+    console.log("History status:", response.status);
+    console.log("History response:", data);
+
+    if (!response.ok) {
+      throw new Error(data.error || "Failed to save history");
+    }
+  } catch (err) {
+    console.error("Failed to save history:", err);
+  }
+};
 
   return (
     <div className="app-container">
