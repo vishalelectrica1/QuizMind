@@ -61,6 +61,18 @@ function QuizApp() {
     }
   };
 
+const handleRetry = () => {
+  setResults([]);
+  setQuizState("playing");
+};
+
+const handleNewQuiz = () => {
+  setResults([]);
+  setQuizData(null);
+  setQuizState("setup");
+  setActiveTab("quiz");
+};
+
   const handleQuizComplete = async (quizAnswers) => {
   const correctCount = quizAnswers.filter((r) => r.isCorrect).length;
   const token = localStorage.getItem("quizmind_token");
