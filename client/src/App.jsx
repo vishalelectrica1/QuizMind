@@ -62,9 +62,6 @@ function QuizApp() {
   };
 
   const handleQuizComplete = async (quizAnswers) => {
-  setResults(quizAnswers);
-  setQuizState("results");
-
   const correctCount = quizAnswers.filter((r) => r.isCorrect).length;
   const token = localStorage.getItem("quizmind_token");
 
@@ -91,8 +88,17 @@ function QuizApp() {
     if (!response.ok) {
       throw new Error(data.error || "Failed to save history");
     }
+
+    // Show result after saving
+    setResults(quizAnswers);
+    setQuizState("results");
+
   } catch (err) {
     console.error("Failed to save history:", err);
+
+    // Still show the result even if history API fails
+    setResults(quizAnswers);
+    setQuizState("results");
   }
 };
 
